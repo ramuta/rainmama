@@ -1,0 +1,83 @@
+
+    
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent" >
+	    
+	<RelativeLayout 	    
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:background="#ffffff" >
+    
+	    <!-- Treba bo inflateat view, ki bo vseboval rainmama image in advice. V tistem viewu bo že vse pravilno (upam) razporejeno: besedilo v oblačku. -->
+	    <TextView
+	        android:id="@+id/main_mama_advice"
+	        android:layout_width="250dp"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:text="@string/main_rainmama_advice"
+	        android:layout_marginRight="0dp"
+	        android:layout_marginTop="10dp"
+	        android:textColor="#FF928A"
+	        android:fontFamily="serif"
+	        android:textStyle="italic"
+	        android:textSize="16sp"
+	        android:background="@drawable/advicepatch"
+	        android:gravity="center" />
+	    
+	    <ImageView
+	        android:id="@+id/main_rainmama"
+	        android:layout_width="127dp"
+	        android:layout_height="160dp"
+	        android:layout_alignParentLeft="true"
+	        android:src="@drawable/glava"
+	        android:adjustViewBounds="true"
+	        android:layout_marginLeft="1dp"
+	        android:layout_marginTop="60dp"
+	        android:layout_toLeftOf="@id/main_mama_advice" />
+ 
+	    <ImageView
+	        android:id="@+id/main_divider"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:adjustViewBounds="true"
+	        android:src="@drawable/bestdividerpatch"
+	        android:layout_margin="3dp"
+	        android:layout_below="@id/main_rainmama" />
+	
+	    <TextView
+	        android:id="@+id/main_weather_text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:text="@string/main_text_inspirations"
+	        tools:context=".MainActivity"
+	        android:layout_below="@id/main_divider"
+	        android:layout_margin="10dp"
+	        android:fontFamily="serif"
+	        android:textStyle="italic"
+	        android:textColor="#4D8FAC"
+	        android:textSize="16sp" />
+	    
+	    <!--  
+	    <ListView
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/weather_text"
+	        android:layout_centerHorizontal="true" />
+	    -->
+ 
+	    <ImageView 
+	        android:id="@+id/main_weather_image"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"       
+	        android:src="@drawable/ic_launcher"
+	        android:adjustViewBounds="true"
+	        android:layout_gravity="center"
+	        android:layout_margin="10dp"
+	        android:layout_below="@id/main_weather_text" />
+
+	</RelativeLayout>
+</ScrollView>

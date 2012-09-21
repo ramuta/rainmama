@@ -1,0 +1,22 @@
+<resources>
+
+    <string name="app_name">RainMama</string>
+    <string name="hello_world">Loading weather.</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">RainMama</string>
+    
+    <!-- MainActivity -->
+	<string name="connection_error_title">No connection</string>
+    <string name="connection_error_text">Please check your internet connection.</string>
+    <string name="connection_settings">Settings</string>
+    <string name="connection_exit">Exit</string>
+    
+    <string name="main_text_inspirations">In this weather you could wear something like this</string>
+    <string name="main_rainmama_advice">Mama says w00t w00t! :)</string>
+    
+    <!-- Preferences -->
+    <string name="title_checkbox_pref_notif">Notifications</string>
+    <string name="summary_checkbox_pref_notif">Turn notifications on or off.</string>
+    <string name="label_preferences">Settings</string>
+
+</resources>

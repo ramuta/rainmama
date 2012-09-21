@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_list_notif_interval">
+        <item name="1">1 minute</item>
+        <item name="60">1 hour</item>
+        <item name="120">2 hours</item>
+        <item name="300">5 hours</item>
+        <item name="600">10 hours</item>
+        <item name="1440">24 hours</item>
+    </string-array>
+    
+    <string-array name="pref_list_notif_interval_values">
+        <item name="1">1</item>
+        <item name="60">60</item>
+        <item name="120">120</item>
+        <item name="300">300</item>
+        <item name="600">600</item>
+        <item name="1440">1440</item>
+    </string-array>
+    
+    <string-array name="pref_gender">
+        <item name="female">Female</item>
+        <item name="male">Male</item>
+    </string-array>
+    
+    <string-array name="pref_gender_values">
+        <item name="female">female</item>
+        <item name="male">male</item>
+    </string-array>
+</resources>
