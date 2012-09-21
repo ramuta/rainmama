@@ -70,7 +70,8 @@ public class WeatherService extends Service {
 	Notification notification;
 	private static final int NOTIF_ID = 1;
 	
-	// TODO shared preferences
+	// shared preferences
+	private static String TEMP_UNIT = "celsius";
 	//public final static String PREF_AUTO_UPDATE = "autoupdate";
 	
 	// alarm for regular updates
@@ -94,6 +95,7 @@ public class WeatherService extends Service {
 		// retrieve Shared preferences
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     	boolean autoUpdate = prefs.getBoolean("checkbox_notification_preference", true); // notifs on/off
+    	TEMP_UNIT = prefs.getString("preference_temperature", "celsius");
     	String intervalString = prefs.getString("preference_notification_interval", "122"); // selected interval
     	Log.i(TAG, "KAJ JE NAROBE??????? "+intervalString);
     	int interval = Integer.parseInt(intervalString);
@@ -206,7 +208,7 @@ public class WeatherService extends Service {
 		notifManager = (NotificationManager)getSystemService(svcName);
 		when = System.currentTimeMillis();
 		Context context = getApplicationContext();
-		String contentText = getNotifText(weatherHolder.getTemperature());
+		String contentText = getNotifText(weatherHolder.getTemperature(TEMP_UNIT));
 		CharSequence contentTitle = "RainMama says:";		
 		Intent notificationIntent = new Intent(this, MainActivity.class);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
@@ -235,11 +237,13 @@ public class WeatherService extends Service {
 	
 	/** Set notificiation text based on the current temperature. */
 	private String getNotifText(String temperature) {
-		switch (weatherHolder.getTemperatureCategory(Integer.parseInt(temperature))){
+		switch (weatherHolder.getTemperatureCategory(Integer.parseInt(temperature), TEMP_UNIT)){
 		case WeatherDataHolder.FREEZING:
 			return WeatherDataHolder.FREEZING_TEXT;
 		case WeatherDataHolder.COLD:
 			return WeatherDataHolder.COLD_TEXT;
+		case WeatherDataHolder.MEDIUM:
+			return WeatherDataHolder.MEDIUM_TEXT;
 		case WeatherDataHolder.WARM:
 			return WeatherDataHolder.WARM_TEXT;
 		case WeatherDataHolder.HOT:

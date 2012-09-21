@@ -31,8 +31,10 @@ public class MainActivity extends SherlockActivity {
 	private ImageView image;
 	private WeatherDataHolder holder = new WeatherDataHolder();
 	private static String GENDER = "female";
+	private static String TEMP_UNIT = "celsius";
 	private static String TEMPERATURE;
 	private static String DESCRIPTION;
+	private static String PRECIPITATION;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,19 +73,24 @@ public class MainActivity extends SherlockActivity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			// get current temperature and description
-			TEMPERATURE = WeatherDataHolder.getTemperature();			
+			TEMPERATURE = WeatherDataHolder.getTemperature(TEMP_UNIT);			
 			DESCRIPTION = WeatherDataHolder.getWeatherDescription();
+			PRECIPITATION = WeatherDataHolder.getPrecipMM();
+			double precip = Double.parseDouble(PRECIPITATION);
 			
 			// refresh menu
 			invalidateOptionsMenu();
 			
 			// set image
-			setImage();
+			mamaText.setText(setImage());
+			if (precip > 0.3) {
+				mamaText.setText(setImage()+WeatherDataHolder.RAIN_TEXT);
+			}
 		}
     }
     
     /** Set image on MainActivity. */
-    public void setImage() {    	
+    public String setImage() {    	
     	int tempCat;
 		
 		if (TEMPERATURE == null) {
@@ -94,7 +101,7 @@ public class MainActivity extends SherlockActivity {
 		}
     	
     	// set image based on temperature category
-		switch (holder.getTemperatureCategory(tempCat)){
+		switch (holder.getTemperatureCategory(tempCat, TEMP_UNIT)){
 		case WeatherDataHolder.FREEZING:
 			if (GENDER.equals("female")) {
 				image.setImageResource(R.drawable.freezing);
@@ -102,7 +109,7 @@ public class MainActivity extends SherlockActivity {
 				image.setImageResource(R.drawable.mfreezing);
 			}				
 			mamaText.setText(WeatherDataHolder.FREEZING_TEXT);
-			return;
+			return WeatherDataHolder.FREEZING_TEXT;
 		case WeatherDataHolder.COLD:
 			if (GENDER.equals("female")) {
 				image.setImageResource(R.drawable.cold);
@@ -110,7 +117,15 @@ public class MainActivity extends SherlockActivity {
 				image.setImageResource(R.drawable.mcold);
 			}
 			mamaText.setText(WeatherDataHolder.COLD_TEXT);
-			return;
+			return WeatherDataHolder.COLD_TEXT;
+		case WeatherDataHolder.MEDIUM:
+			if (GENDER.equals("female")) {
+				image.setImageResource(R.drawable.medium);
+			} else {
+				image.setImageResource(R.drawable.mmedium);
+			}
+			mamaText.setText(WeatherDataHolder.MEDIUM_TEXT);
+			return WeatherDataHolder.MEDIUM_TEXT;
 		case WeatherDataHolder.WARM:
 			if (GENDER.equals("female")) {
 				image.setImageResource(R.drawable.warm);
@@ -118,7 +133,7 @@ public class MainActivity extends SherlockActivity {
 				image.setImageResource(R.drawable.mwarm);
 			}
 			mamaText.setText(WeatherDataHolder.WARM_TEXT);
-			return;
+			return WeatherDataHolder.WARM_TEXT;
 		case WeatherDataHolder.HOT:
 			if (GENDER.equals("female")) {
 				image.setImageResource(R.drawable.hot);
@@ -126,15 +141,25 @@ public class MainActivity extends SherlockActivity {
 				image.setImageResource(R.drawable.mhot);
 			}
 			mamaText.setText(WeatherDataHolder.HOT_TEXT);
-			return;
+			return WeatherDataHolder.HOT_TEXT;
 		}
+		return null;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.activity_main, menu);
         
-        menu.add(WeatherDataHolder.getWeatherDescription()+", "+WeatherDataHolder.getTemperature()+"°C").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        String unitSign;
+        if (TEMP_UNIT.equals("celsius")) {
+        	unitSign = "°C";
+        } else {
+        	unitSign = "°F";
+        }
+        
+        menu.add(WeatherDataHolder.getWeatherDescription()+", "+
+        		WeatherDataHolder.getTemperature(TEMP_UNIT)+unitSign)
+        		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         //menu.add(WeatherDataHolder.getWeatherDescription()).setIcon(R.drawable.ic_launcher).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     	
         return true;
@@ -161,6 +186,7 @@ public class MainActivity extends SherlockActivity {
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     	//boolean check = prefs.getBoolean("checkbox_notification_preference", true);
     	GENDER = prefs.getString("preference_gender", "female");
+    	TEMP_UNIT = prefs.getString("preference_temperature", "celsius");
     	setImage();
     	Log.i(TAG, "Gender: "+GENDER);
     }
