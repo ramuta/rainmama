@@ -4,6 +4,8 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.flurry.android.Constants;
+import com.flurry.android.FlurryAgent;
 import com.rainmama.R;
 import com.rainmama.data.WeatherDataHolder;
 import com.rainmama.services.WeatherService;
@@ -35,6 +37,9 @@ public class MainActivity extends SherlockActivity {
 	private static String TEMPERATURE;
 	private static String DESCRIPTION;
 	private static String PRECIPITATION;
+	
+	// Flurry variables
+	private static final String FSETTINGS = "Settings";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,7 +99,7 @@ public class MainActivity extends SherlockActivity {
     	int tempCat;
 		
 		if (TEMPERATURE == null) {
-			Log.e(TAG, "temperature NULL!!!!");
+			//Log.e(TAG, "temperature NULL!!!!");
 			tempCat = 15;
 		} else {
 			tempCat = Integer.parseInt(TEMPERATURE);
@@ -169,7 +174,8 @@ public class MainActivity extends SherlockActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.menu_settings:
-        	Log.i(TAG, "settings");
+        	//Log.i(TAG, "settings");
+        	FlurryAgent.logEvent(FSETTINGS);
         	Intent intent = new Intent(this, Preference.class);
         	startActivity(intent);
         	return true;
@@ -179,16 +185,57 @@ public class MainActivity extends SherlockActivity {
     }
     
     @Override
+	public void onStart()
+	{
+	   super.onStart();
+	   FlurryAgent.setLogEvents(true);
+ 	   FlurryAgent.onPageView();
+	   FlurryAgent.onStartSession(this, "HCYDQK9CQZK6MF2P7FJS");
+	   // additional code
+	}
+    
+    @Override
+    public void onStop()
+    {
+       super.onStop();
+       FlurryAgent.onEndSession(this);
+       // additional code
+    }
+    
+    @Override
     protected void onResume() {
     	super.onResume();
     	IS_IN_FRONT = true;
     	callWeatherService();
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-    	//boolean check = prefs.getBoolean("checkbox_notification_preference", true);
+    	boolean check = prefs.getBoolean("checkbox_notification_preference", true);
     	GENDER = prefs.getString("preference_gender", "female");
     	TEMP_UNIT = prefs.getString("preference_temperature", "celsius");
+    	
+    	String intervalString = prefs.getString("preference_notification_interval", "122");
+    	
+    	if (GENDER.equals("male")) {
+			FlurryAgent.setGender(Constants.MALE);
+		} else if (GENDER.equals("female")) {
+			FlurryAgent.setGender(Constants.FEMALE);
+		}
+    	
+    	if (check) {
+    		FlurryAgent.logEvent("Notifications on");
+    	} else {
+    		FlurryAgent.logEvent("Notifications off");
+    	}
+    	
+    	if (TEMP_UNIT.equals("celsius")) {
+    		FlurryAgent.logEvent("Celsius");
+    	} else {
+    		FlurryAgent.logEvent("Fahrenheit");
+    	}
+    	
+    	FlurryAgent.logEvent("Interval "+intervalString);
+    	
     	setImage();
-    	Log.i(TAG, "Gender: "+GENDER);
+    	//Log.i(TAG, "Gender: "+GENDER);
     }
 
     @Override
@@ -228,7 +275,7 @@ public class MainActivity extends SherlockActivity {
 			}});
 		alert.setPositiveButton(MainActivity.this.getString(R.string.connection_settings), new DialogInterface.OnClickListener() {				
 			public void onClick(DialogInterface dialog, int which) {
-				Log.i("TAG", "Gremo v nastavitve!");
+				//Log.i("TAG", "Gremo v nastavitve!");
 				startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
 				MainActivity.this.finish();
 			}

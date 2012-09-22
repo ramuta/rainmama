@@ -89,7 +89,7 @@ public class WeatherService extends Service {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.i(TAG, "Service started");
+		//Log.i(TAG, "Service started");
 		locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
 		
 		// retrieve Shared preferences
@@ -97,9 +97,8 @@ public class WeatherService extends Service {
     	boolean autoUpdate = prefs.getBoolean("checkbox_notification_preference", true); // notifs on/off
     	TEMP_UNIT = prefs.getString("preference_temperature", "celsius");
     	String intervalString = prefs.getString("preference_notification_interval", "122"); // selected interval
-    	Log.i(TAG, "KAJ JE NAROBE??????? "+intervalString);
     	int interval = Integer.parseInt(intervalString);
-    	Log.i(TAG, "Notifications on: "+autoUpdate+", interval: "+intervalString);
+    	//Log.i(TAG, "Notifications on: "+autoUpdate+", interval: "+intervalString);
 
 		// if autoUpdate is on, repeat on selected time period
 		if (autoUpdate) {
@@ -135,7 +134,7 @@ public class WeatherService extends Service {
 		
 		double uLat = location.getLatitude();
 		double uLong = location.getLongitude();
-		Log.i(TAG, "lat: "+uLat+", long: "+uLong);
+		//Log.i(TAG, "lat: "+uLat+", long: "+uLong);
 		
 		getWeather(uLat, uLong);
 	}
