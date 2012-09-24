@@ -88,7 +88,7 @@ public class MainActivity extends SherlockActivity {
 			
 			// set image
 			mamaText.setText(setImage());
-			if (precip > 0.3) {
+			if (precip > 0.1) {
 				mamaText.setText(setImage()+WeatherDataHolder.RAIN_TEXT);
 			}
 		}
@@ -246,7 +246,11 @@ public class MainActivity extends SherlockActivity {
 
     @Override
     public void onDestroy() {  
-    	this.unregisterReceiver(receiver);  
+    	try {
+			this.unregisterReceiver(receiver);
+		} catch (Exception e) {
+			Log.e(TAG, "Receiver not registered: "+e);
+		}  
     	super.onDestroy();    	 	
     }
     
