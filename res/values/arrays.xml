@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="pref_list_notif_interval">
-        <item name="1">1 minute</item>
+        <item name="1">Only if weather changes</item>
         <item name="60">1 hour</item>
         <item name="120">2 hours</item>
         <item name="300">5 hours</item>

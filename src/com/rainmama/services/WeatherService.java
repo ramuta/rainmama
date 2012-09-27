@@ -79,6 +79,12 @@ public class WeatherService extends Service {
 	PendingIntent alarmIntent;
 	String alarmAction;
 	
+	// shared prefs
+	private SharedPreferences prefs;
+	private static final String SAVED_TEMP_CAT = "savedtempcat";
+	int lastTempCat;
+	int newTempCat;
+	
 	@Override
 	public void onCreate() {
 		alarms = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
@@ -93,12 +99,17 @@ public class WeatherService extends Service {
 		locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
 		
 		// retrieve Shared preferences
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     	boolean autoUpdate = prefs.getBoolean("checkbox_notification_preference", true); // notifs on/off
     	TEMP_UNIT = prefs.getString("preference_temperature", "celsius");
     	String intervalString = prefs.getString("preference_notification_interval", "122"); // selected interval
-    	int interval = Integer.parseInt(intervalString);
-    	//Log.i(TAG, "Notifications on: "+autoUpdate+", interval: "+intervalString);
+    	lastTempCat = prefs.getInt(SAVED_TEMP_CAT, 0);
+    	
+    	int interval = Integer.parseInt(intervalString); // if interval == 1, potem objavi notif samo èe je sprememba vremena (ogled na 60 min)
+    	
+    	if (interval == 1) {
+    		interval = 60;
+    	}
 
 		// if autoUpdate is on, repeat on selected time period
 		if (autoUpdate) {
@@ -172,11 +183,20 @@ public class WeatherService extends Service {
 	        weatherResponse = sb.toString(); // odgovor (rezultat) ki ga dobimo po poslanem zahtevku
 	        //Log.i(TAG, "WEATHER: " + weatherResponse);	        
 	        weatherHolder.parseWeatherData(weatherResponse); // parse reponse
+	        String sTemperature = weatherHolder.getTemperature(TEMP_UNIT);
+	        newTempCat = weatherHolder.getTemperatureCategory(Integer.parseInt(sTemperature), TEMP_UNIT);	        
 	        sendWeatherBroadcastIntent();
     	} catch(Exception e){
     		Log.e(TAG, "Error converting result "+e.toString());
     	}
 	}
+	
+	/** Save temperature category to SharedPrefs */
+	private void saveTempCat(int tempCat) {
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putInt(SAVED_TEMP_CAT, tempCat); // TODO
+		editor.commit();
+	}	
 	
 	/** Send weather broadcast intent to main activity. */
 	private void sendWeatherBroadcastIntent() {
@@ -194,15 +214,17 @@ public class WeatherService extends Service {
 	     protected void onPostExecute(Bitmap result) {
 	    	 //Log.i(TAG, "onPostExecute");
 	    	 if (!MainActivity.IS_IN_FRONT) { // if MainActivity is open/running/front, then don't set the notification!
-		         setNotifications();
-		         notifManager.notify(NOTIF_ID, notification);
+	    		 if (newTempCat != lastTempCat && lastTempCat != 0) {
+	    			 setNotifications();
+			         notifManager.notify(NOTIF_ID, notification);
+			         saveTempCat(newTempCat);
+	    		 }		         
 	    	 }
 	         stopSelf(); // stop service
 	     }
 	}
 	
-	/** Set notification about current weather. */
-	
+	/** Set notification about current weather. */	
 	private void setNotifications() {
 		notifManager = (NotificationManager)getSystemService(svcName);
 		when = System.currentTimeMillis();
