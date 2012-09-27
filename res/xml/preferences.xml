@@ -10,7 +10,7 @@
         android:title="Notification Interval"
 		android:summary="At what rate should notifications appear?"
 		android:key="preference_notification_interval"
-		android:defaultValue="120"
+		android:defaultValue="1"
 		android:entries="@array/pref_list_notif_interval"
 		android:entryValues="@array/pref_list_notif_interval_values"
 		android:dependency="checkbox_notification_preference" />

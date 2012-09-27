@@ -12,6 +12,7 @@ import com.rainmama.services.WeatherService;
 //import com.actionbarsherlock.view.MenuInflater;
 
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.app.AlertDialog;
@@ -21,7 +22,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Resources.NotFoundException;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,6 +44,10 @@ public class MainActivity extends SherlockActivity {
 	
 	// Flurry variables
 	private static final String FSETTINGS = "Settings";
+	
+	// image links
+	private final int NIKA = 777;
+	private final int ROBERT = 776;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,6 +99,7 @@ public class MainActivity extends SherlockActivity {
 			if (precip > 0.1) {
 				mamaText.setText(setImage()+WeatherDataHolder.RAIN_TEXT);
 			}
+			image.setOnClickListener(listener);
 		}
     }
     
@@ -110,46 +119,74 @@ public class MainActivity extends SherlockActivity {
 		case WeatherDataHolder.FREEZING:
 			if (GENDER.equals("female")) {
 				image.setImageResource(R.drawable.freezing);
+				image.setTag(NIKA);
 			} else {
 				image.setImageResource(R.drawable.mfreezing);
+				image.setTag(ROBERT);
 			}				
 			mamaText.setText(WeatherDataHolder.FREEZING_TEXT);
 			return WeatherDataHolder.FREEZING_TEXT;
 		case WeatherDataHolder.COLD:
 			if (GENDER.equals("female")) {
 				image.setImageResource(R.drawable.cold);
+				image.setTag(NIKA);
 			} else {
 				image.setImageResource(R.drawable.mcold);
+				image.setTag(ROBERT);
 			}
 			mamaText.setText(WeatherDataHolder.COLD_TEXT);
 			return WeatherDataHolder.COLD_TEXT;
 		case WeatherDataHolder.MEDIUM:
 			if (GENDER.equals("female")) {
 				image.setImageResource(R.drawable.medium);
+				image.setTag(NIKA);
 			} else {
 				image.setImageResource(R.drawable.mmedium);
+				image.setTag(ROBERT);
 			}
 			mamaText.setText(WeatherDataHolder.MEDIUM_TEXT);
 			return WeatherDataHolder.MEDIUM_TEXT;
 		case WeatherDataHolder.WARM:
 			if (GENDER.equals("female")) {
 				image.setImageResource(R.drawable.warm);
+				image.setTag(NIKA);
 			} else {
 				image.setImageResource(R.drawable.mwarm);
+				image.setTag(ROBERT);
 			}
 			mamaText.setText(WeatherDataHolder.WARM_TEXT);
 			return WeatherDataHolder.WARM_TEXT;
 		case WeatherDataHolder.HOT:
 			if (GENDER.equals("female")) {
 				image.setImageResource(R.drawable.hot);
+				image.setTag(NIKA);
 			} else {
 				image.setImageResource(R.drawable.mhot);
+				image.setTag(ROBERT);
 			}
 			mamaText.setText(WeatherDataHolder.HOT_TEXT);
 			return WeatherDataHolder.HOT_TEXT;
 		}
 		return null;
     }
+    
+    OnClickListener listener = new OnClickListener() {
+		@Override
+		public void onClick(View view) {
+			// TODO Auto-generated method stub
+			int pogoj = (Integer) view.getTag();
+			
+			switch(pogoj) {
+			case NIKA:
+				//Log.i(TAG, "nika");
+				visitBlogDialogBox("Nika", "http://nikadressed.blogspot.com/");
+				break;
+			case ROBERT:
+				//Log.i(TAG, "robert");
+				visitBlogDialogBox("Robert", "http://cargocollective.com/robertdragan");
+				break;
+			}
+		}};
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -284,5 +321,31 @@ public class MainActivity extends SherlockActivity {
 				MainActivity.this.finish();
 			}
 		}).show();
+    }
+    
+    /** AlertBox that asks user if he really wants to visit model's blog. */
+    private void visitBlogDialogBox(String bloggerName, final String URL) {
+    	AlertDialog.Builder alertBlog = new AlertDialog.Builder(MainActivity.this);
+    	alertBlog.setTitle(bloggerName);
+    	alertBlog.setMessage("A model on this photo is "+bloggerName+". Visit "+bloggerName+"'s blog to see more pictures.");
+    	alertBlog.setNegativeButton("Back", new DialogInterface.OnClickListener() {			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+    	alertBlog.setPositiveButton("Visit blog", new DialogInterface.OnClickListener() {			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				visitBlog(URL);
+			}
+		}).show();
+    }
+    
+    /** Go to blog. */
+    private void visitBlog(String URL) {
+    	Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(URL));
+        startActivity(intent);
     }
 }
