@@ -19,7 +19,7 @@
         android:title="Gender"
 		android:summary="Select your gender."
 		android:key="preference_gender"
-		android:defaultValue="female"
+		android:defaultValue="male"
 		android:entries="@array/pref_gender"
 		android:entryValues="@array/pref_gender_values" />
     

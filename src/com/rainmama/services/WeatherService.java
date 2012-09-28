@@ -43,6 +43,7 @@ import android.os.IBinder;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 public class WeatherService extends Service {
 	private static final String TAG = "Weather Service";
@@ -82,8 +83,11 @@ public class WeatherService extends Service {
 	// shared prefs
 	private SharedPreferences prefs;
 	private static final String SAVED_TEMP_CAT = "savedtempcat";
+	private static final String SAVED_PRECIP = "savedprecip";
 	int lastTempCat;
 	int newTempCat;
+	float lastPrecip;
+	float newPrecip;
 	
 	@Override
 	public void onCreate() {
@@ -104,12 +108,15 @@ public class WeatherService extends Service {
     	TEMP_UNIT = prefs.getString("preference_temperature", "celsius");
     	String intervalString = prefs.getString("preference_notification_interval", "122"); // selected interval
     	lastTempCat = prefs.getInt(SAVED_TEMP_CAT, 0);
+    	lastPrecip = prefs.getFloat(SAVED_PRECIP, 0);
     	
     	int interval = Integer.parseInt(intervalString); // if interval == 1, potem objavi notif samo èe je sprememba vremena (ogled na 60 min)
     	
     	if (interval == 1) {
     		interval = 60;
     	}
+    	
+    	//interval = 1;
 
 		// if autoUpdate is on, repeat on selected time period
 		if (autoUpdate) {
@@ -123,6 +130,8 @@ public class WeatherService extends Service {
 		// if there is a connection to the internet, do the weather task
 		if (checkInternetConnection()) {
 			new getWeatherTask().execute();
+		} else {
+			Log.e(TAG, "Problem with internet connection.");
 		}		
 		
 		return Service.START_STICKY;
@@ -181,7 +190,7 @@ public class WeatherService extends Service {
 	        }        
 	        is.close();
 	        weatherResponse = sb.toString(); // odgovor (rezultat) ki ga dobimo po poslanem zahtevku
-	        //Log.i(TAG, "WEATHER: " + weatherResponse);	        
+	        Log.i(TAG, "WEATHER: " + weatherResponse);	        
 	        weatherHolder.parseWeatherData(weatherResponse); // parse reponse
 	        String sTemperature = weatherHolder.getTemperature(TEMP_UNIT);
 	        newTempCat = weatherHolder.getTemperatureCategory(Integer.parseInt(sTemperature), TEMP_UNIT);	        
@@ -196,7 +205,14 @@ public class WeatherService extends Service {
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putInt(SAVED_TEMP_CAT, tempCat); // TODO
 		editor.commit();
-	}	
+	}
+	
+	/** Save last precip to SharedPrefs */
+	private void saveLastPrecip(float precip) {
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putFloat(SAVED_PRECIP, precip); // TODO
+		editor.commit();
+	}
 	
 	/** Send weather broadcast intent to main activity. */
 	private void sendWeatherBroadcastIntent() {
@@ -214,22 +230,40 @@ public class WeatherService extends Service {
 	     protected void onPostExecute(Bitmap result) {
 	    	 //Log.i(TAG, "onPostExecute");
 	    	 if (!MainActivity.IS_IN_FRONT) { // if MainActivity is open/running/front, then don't set the notification!
-	    		 if (newTempCat != lastTempCat && lastTempCat != 0) {
-	    			 setNotifications();
-			         notifManager.notify(NOTIF_ID, notification);
-			         saveTempCat(newTempCat);
-	    		 }		         
+	    		 newPrecip = Float.parseFloat(weatherHolder.getPrecipMM());
+	    		 //newPrecip = (float) 0.1;
+	    		 
+	    		 if (newPrecip >= 0.1 && lastPrecip == 0) {
+	    			 showNotif(true);
+	    			 saveLastPrecip(newPrecip);
+	    		 } else {
+	    			 if (newTempCat != lastTempCat && lastTempCat != 0) {
+			    		showNotif(false);
+		    		 }
+	    		 } 
 	    	 }
 	         stopSelf(); // stop service
 	     }
 	}
 	
-	/** Set notification about current weather. */	
-	private void setNotifications() {
+	/** Show notification. */
+	private void showNotif(boolean precip) {
+		setNotifications(precip);
+        notifManager.notify(NOTIF_ID, notification);
+        saveTempCat(newTempCat);
+	}
+	
+	/** Set notification about current weather. If there's precipitation, set them true. */	
+	private void setNotifications(boolean precip) {
 		notifManager = (NotificationManager)getSystemService(svcName);
 		when = System.currentTimeMillis();
 		Context context = getApplicationContext();
-		String contentText = getNotifText(weatherHolder.getTemperature(TEMP_UNIT));
+		String contentText;
+		if (precip == false) {
+			contentText = getNotifText(weatherHolder.getTemperature(TEMP_UNIT));
+		} else {
+			contentText = "Take an umbrella with you!";
+		}			
 		CharSequence contentTitle = "RainMama says:";		
 		Intent notificationIntent = new Intent(this, MainActivity.class);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);

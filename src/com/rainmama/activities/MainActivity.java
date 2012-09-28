@@ -36,7 +36,7 @@ public class MainActivity extends SherlockActivity {
 	private TextView mamaText;
 	private ImageView image;
 	private WeatherDataHolder holder = new WeatherDataHolder();
-	private static String GENDER = "female";
+	private static String GENDER = "male";
 	private static String TEMP_UNIT = "celsius";
 	private static String TEMPERATURE;
 	private static String DESCRIPTION;
@@ -66,7 +66,7 @@ public class MainActivity extends SherlockActivity {
         
         // check if there's an internet connection
         if (checkInternetConnection()) {
-        	callWeatherService();
+        	//callWeatherService();
             
             IntentFilter filter = new IntentFilter(WeatherService.WEATHER_UPDATE);
         	filter.addCategory(Intent.ACTION_DEFAULT);
@@ -246,7 +246,7 @@ public class MainActivity extends SherlockActivity {
     	callWeatherService();
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     	boolean check = prefs.getBoolean("checkbox_notification_preference", true);
-    	GENDER = prefs.getString("preference_gender", "female");
+    	GENDER = prefs.getString("preference_gender", "male");
     	TEMP_UNIT = prefs.getString("preference_temperature", "celsius");
     	
     	String intervalString = prefs.getString("preference_notification_interval", "122");
