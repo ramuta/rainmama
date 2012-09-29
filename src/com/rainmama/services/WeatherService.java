@@ -116,7 +116,7 @@ public class WeatherService extends Service {
     		interval = 60;
     	}
     	
-    	//interval = 1;
+    	//interval = 1; // TODO
 
 		// if autoUpdate is on, repeat on selected time period
 		if (autoUpdate) {
@@ -203,14 +203,14 @@ public class WeatherService extends Service {
 	/** Save temperature category to SharedPrefs */
 	private void saveTempCat(int tempCat) {
 		SharedPreferences.Editor editor = prefs.edit();
-		editor.putInt(SAVED_TEMP_CAT, tempCat); // TODO
+		editor.putInt(SAVED_TEMP_CAT, tempCat);
 		editor.commit();
 	}
 	
 	/** Save last precip to SharedPrefs */
 	private void saveLastPrecip(float precip) {
 		SharedPreferences.Editor editor = prefs.edit();
-		editor.putFloat(SAVED_PRECIP, precip); // TODO
+		editor.putFloat(SAVED_PRECIP, precip);
 		editor.commit();
 	}
 	
@@ -231,7 +231,7 @@ public class WeatherService extends Service {
 	    	 //Log.i(TAG, "onPostExecute");
 	    	 if (!MainActivity.IS_IN_FRONT) { // if MainActivity is open/running/front, then don't set the notification!
 	    		 newPrecip = Float.parseFloat(weatherHolder.getPrecipMM());
-	    		 //newPrecip = (float) 0.1;
+	    		 //newPrecip = (float) 0.1; // TODO
 	    		 
 	    		 if (newPrecip >= 0.1 && lastPrecip == 0) {
 	    			 showNotif(true);
