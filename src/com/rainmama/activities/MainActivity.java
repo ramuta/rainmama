@@ -11,6 +11,7 @@ import com.rainmama.data.WeatherDataHolder;
 import com.rainmama.services.WeatherService;
 //import com.actionbarsherlock.view.MenuInflater;
 
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -65,16 +66,18 @@ public class MainActivity extends SherlockActivity {
         mamaText = (TextView)findViewById(R.id.main_mama_advice);
         
         // check if there's an internet connection
-        if (checkInternetConnection()) {
+        //if (checkInternetConnection()) {
         	//callWeatherService();
             
             IntentFilter filter = new IntentFilter(WeatherService.WEATHER_UPDATE);
         	filter.addCategory(Intent.ACTION_DEFAULT);
         	receiver = new WeatherReceiver();
         	registerReceiver(receiver, filter);
+        /*
         } else {
         	openAlertDialogBox();
         }        
+        */
     }
     
     public void callWeatherService() {
@@ -239,11 +242,37 @@ public class MainActivity extends SherlockActivity {
        // additional code
     }
     
+    private int weatherServiceConditions() {
+    	if (checkInternetConnection()) {
+    		LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+    		boolean networkLocation = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    		if (networkLocation) {
+    			return 1;
+    		} else {
+    			return 3;
+    		}
+    	} else {
+    		return 2;
+    	}
+    }
+    
     @Override
     protected void onResume() {
     	super.onResume();
     	IS_IN_FRONT = true;
-    	callWeatherService();
+    	
+    	switch (weatherServiceConditions()) {
+    	case 1:
+    		callWeatherService();
+    		break;
+    	case 2:
+    		openAlertDialogBox();
+    		break;
+    	case 3:
+    		openLocationAlertDialogBox();
+    		break;
+    	}
+   	
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     	boolean check = prefs.getBoolean("checkbox_notification_preference", true);
     	GENDER = prefs.getString("preference_gender", "male");
@@ -318,6 +347,25 @@ public class MainActivity extends SherlockActivity {
 			public void onClick(DialogInterface dialog, int which) {
 				//Log.i("TAG", "Gremo v nastavitve!");
 				startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+				MainActivity.this.finish();
+			}
+		}).show();
+    }
+    
+    /** Opens alert dialog box for location settings. */
+    private void openLocationAlertDialogBox() {
+    	AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+		alert.setTitle("Location error");
+		alert.setMessage("Please go to Settings and allow your location to be determined by wi-fi or mobile networks.");
+		alert.setNegativeButton(MainActivity.this.getString(R.string.connection_exit), new DialogInterface.OnClickListener(){
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+				MainActivity.this.finish();
+			}});
+		alert.setPositiveButton(MainActivity.this.getString(R.string.connection_settings), new DialogInterface.OnClickListener() {				
+			public void onClick(DialogInterface dialog, int which) {
+				//Log.i("TAG", "Gremo v nastavitve!");
+				startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
 				MainActivity.this.finish();
 			}
 		}).show();
