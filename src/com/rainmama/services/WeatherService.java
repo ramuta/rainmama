@@ -242,7 +242,11 @@ public class WeatherService extends Service {
 	    		 //newPrecip = (float) 0.1; // TODO
 	    		 if (!intervalString.equals("1")) {
 	    			 Log.i(TAG, "Interval is NOT set to Only if weather changes");
-	    			 showNotif(true);
+	    			 if (newPrecip >= 0.1) {
+	    				 showNotif(true);
+	    			 } else {
+	    				 showNotif(false);
+	    			 }
 	    		 } else {
 	    			 Log.i(TAG, "Interval is set to Only if weather changes");
 		    		 if (newPrecip >= 0.1 && lastPrecip == 0) {
