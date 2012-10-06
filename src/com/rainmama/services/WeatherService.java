@@ -68,7 +68,7 @@ public class WeatherService extends Service {
 	private int notifIcon = R.drawable.icon;
 	private CharSequence notifTickerText = "RainMama says";
 	private long when;
-	Notification notification;
+	private Notification notification;
 	private static final int NOTIF_ID = 1;
 	
 	// shared preferences
@@ -76,18 +76,19 @@ public class WeatherService extends Service {
 	//public final static String PREF_AUTO_UPDATE = "autoupdate";
 	
 	// alarm for regular updates
-	AlarmManager alarms;
-	PendingIntent alarmIntent;
-	String alarmAction;
+	private AlarmManager alarms;
+	private PendingIntent alarmIntent;
+	private String alarmAction;
 	
 	// shared prefs
 	private SharedPreferences prefs;
 	private static final String SAVED_TEMP_CAT = "savedtempcat";
 	private static final String SAVED_PRECIP = "savedprecip";
-	int lastTempCat;
-	int newTempCat;
-	float lastPrecip;
-	float newPrecip;
+	private int lastTempCat;
+	private int newTempCat;
+	private float lastPrecip;
+	private static float newPrecip;
+	private String intervalString;
 	
 	@Override
 	public void onCreate() {
@@ -106,7 +107,7 @@ public class WeatherService extends Service {
 		prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     	boolean autoUpdate = prefs.getBoolean("checkbox_notification_preference", true); // notifs on/off
     	TEMP_UNIT = prefs.getString("preference_temperature", "celsius");
-    	String intervalString = prefs.getString("preference_notification_interval", "122"); // selected interval
+    	intervalString = prefs.getString("preference_notification_interval", "1"); // selected interval
     	lastTempCat = prefs.getInt(SAVED_TEMP_CAT, 0);
     	lastPrecip = prefs.getFloat(SAVED_PRECIP, 0);
     	
@@ -230,17 +231,29 @@ public class WeatherService extends Service {
 	     protected void onPostExecute(Bitmap result) {
 	    	 //Log.i(TAG, "onPostExecute");
 	    	 if (!MainActivity.IS_IN_FRONT) { // if MainActivity is open/running/front, then don't set the notification!
-	    		 newPrecip = Float.parseFloat(weatherHolder.getPrecipMM());
-	    		 //newPrecip = (float) 0.1; // TODO
+	    		 try {
+					newPrecip = Float.parseFloat(weatherHolder.getPrecipMM());
+				} catch (NumberFormatException e) {
+					newPrecip = (float) 0.0;
+				}
 	    		 
-	    		 if (newPrecip >= 0.1 && lastPrecip == 0) {
+	    		 Log.i(TAG, "intervalString: "+intervalString);
+	    		 
+	    		 //newPrecip = (float) 0.1; // TODO
+	    		 if (!intervalString.equals("1")) {
+	    			 Log.i(TAG, "Interval is NOT set to Only if weather changes");
 	    			 showNotif(true);
-	    			 saveLastPrecip(newPrecip);
 	    		 } else {
-	    			 if (newTempCat != lastTempCat && lastTempCat != 0) {
-			    		showNotif(false);
-		    		 }
-	    		 } 
+	    			 Log.i(TAG, "Interval is set to Only if weather changes");
+		    		 if (newPrecip >= 0.1 && lastPrecip == 0) {
+		    			 showNotif(true);
+		    			 saveLastPrecip(newPrecip);
+		    		 } else {
+		    			 if (newTempCat != lastTempCat && lastTempCat != 0) {
+				    		showNotif(false);
+			    		 }
+		    		 } 
+	    		 }
 	    	 }
 	         stopSelf(); // stop service
 	     }
