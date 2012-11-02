@@ -7,8 +7,8 @@
         android:defaultValue="true" />
     
     <ListPreference
-        android:title="Notification Interval"
-		android:summary="At what rate should notifications appear?"
+        android:title="@string/prefs_notif_interval"
+		android:summary="@string/prefs_notif_appear"
 		android:key="preference_notification_interval"
 		android:defaultValue="1"
 		android:entries="@array/pref_list_notif_interval"
@@ -16,7 +16,7 @@
 		android:dependency="checkbox_notification_preference" />
     
     <ListPreference
-        android:title="Gender"
+        android:title="@string/prefs_gender"
 		android:summary="Select your gender."
 		android:key="preference_gender"
 		android:defaultValue="male"

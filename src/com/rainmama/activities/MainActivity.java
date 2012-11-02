@@ -36,7 +36,7 @@ public class MainActivity extends SherlockActivity {
 	private WeatherReceiver receiver;
 	private TextView mamaText;
 	private ImageView image;
-	private WeatherDataHolder holder = new WeatherDataHolder();
+	private WeatherDataHolder holder;
 	private static String GENDER = "male";
 	private static String TEMP_UNIT = "celsius";
 	private static String TEMPERATURE;
@@ -55,6 +55,8 @@ public class MainActivity extends SherlockActivity {
         super.onCreate(savedInstanceState);
         IS_IN_FRONT = true;
         setContentView(R.layout.activity_main);
+        
+        holder = new WeatherDataHolder(MainActivity.this);
         
         // get action bar
         ActionBar actionBar = getSupportActionBar();
@@ -100,7 +102,7 @@ public class MainActivity extends SherlockActivity {
 			// set image
 			mamaText.setText(setImage());
 			if (precip > 0.1) {
-				mamaText.setText(setImage()+WeatherDataHolder.RAIN_TEXT);
+				mamaText.setText(setImage()+holder.RAIN_TEXT);
 			}
 			image.setOnClickListener(listener);
 		}
@@ -127,8 +129,8 @@ public class MainActivity extends SherlockActivity {
 				image.setImageResource(R.drawable.mfreezing);
 				image.setTag(ROBERT);
 			}				
-			mamaText.setText(WeatherDataHolder.FREEZING_TEXT);
-			return WeatherDataHolder.FREEZING_TEXT;
+			mamaText.setText(holder.FREEZING_TEXT);
+			return holder.FREEZING_TEXT;
 		case WeatherDataHolder.COLD:
 			if (GENDER.equals("female")) {
 				image.setImageResource(R.drawable.cold);
@@ -137,8 +139,8 @@ public class MainActivity extends SherlockActivity {
 				image.setImageResource(R.drawable.mcold);
 				image.setTag(ROBERT);
 			}
-			mamaText.setText(WeatherDataHolder.COLD_TEXT);
-			return WeatherDataHolder.COLD_TEXT;
+			mamaText.setText(holder.COLD_TEXT);
+			return holder.COLD_TEXT;
 		case WeatherDataHolder.MEDIUM:
 			if (GENDER.equals("female")) {
 				image.setImageResource(R.drawable.medium);
@@ -147,8 +149,8 @@ public class MainActivity extends SherlockActivity {
 				image.setImageResource(R.drawable.mmedium);
 				image.setTag(ROBERT);
 			}
-			mamaText.setText(WeatherDataHolder.MEDIUM_TEXT);
-			return WeatherDataHolder.MEDIUM_TEXT;
+			mamaText.setText(holder.MEDIUM_TEXT);
+			return holder.MEDIUM_TEXT;
 		case WeatherDataHolder.WARM:
 			if (GENDER.equals("female")) {
 				image.setImageResource(R.drawable.warm);
@@ -157,8 +159,8 @@ public class MainActivity extends SherlockActivity {
 				image.setImageResource(R.drawable.mwarm);
 				image.setTag(ROBERT);
 			}
-			mamaText.setText(WeatherDataHolder.WARM_TEXT);
-			return WeatherDataHolder.WARM_TEXT;
+			mamaText.setText(holder.WARM_TEXT);
+			return holder.WARM_TEXT;
 		case WeatherDataHolder.HOT:
 			if (GENDER.equals("female")) {
 				image.setImageResource(R.drawable.hot);
@@ -167,8 +169,8 @@ public class MainActivity extends SherlockActivity {
 				image.setImageResource(R.drawable.mhot);
 				image.setTag(ROBERT);
 			}
-			mamaText.setText(WeatherDataHolder.HOT_TEXT);
-			return WeatherDataHolder.HOT_TEXT;
+			mamaText.setText(holder.HOT_TEXT);
+			return holder.HOT_TEXT;
 		}
 		return null;
     }
@@ -218,6 +220,10 @@ public class MainActivity extends SherlockActivity {
         	FlurryAgent.logEvent(FSETTINGS);
         	Intent intent = new Intent(this, Preference.class);
         	startActivity(intent);
+        	return true;
+        case R.id.menu_about:
+        	Intent intent2 = new Intent(this, About.class);
+        	startActivity(intent2);
         	return true;
         default:
             return super.onOptionsItemSelected(item);
@@ -355,8 +361,8 @@ public class MainActivity extends SherlockActivity {
     /** Opens alert dialog box for location settings. */
     private void openLocationAlertDialogBox() {
     	AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
-		alert.setTitle("Location error");
-		alert.setMessage("Please go to Settings and allow your location to be determined by wi-fi or mobile networks.");
+		alert.setTitle(MainActivity.this.getString(R.string.error_location));
+		alert.setMessage(MainActivity.this.getString(R.string.error_location_text));
 		alert.setNegativeButton(MainActivity.this.getString(R.string.connection_exit), new DialogInterface.OnClickListener(){
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
@@ -375,14 +381,14 @@ public class MainActivity extends SherlockActivity {
     private void visitBlogDialogBox(String bloggerName, final String URL) {
     	AlertDialog.Builder alertBlog = new AlertDialog.Builder(MainActivity.this);
     	alertBlog.setTitle(bloggerName);
-    	alertBlog.setMessage("A model on this photo is "+bloggerName+". Visit "+bloggerName+"'s blog to see more pictures.");
-    	alertBlog.setNegativeButton("Back", new DialogInterface.OnClickListener() {			
+    	alertBlog.setMessage(MainActivity.this.getString(R.string.blogger_text1)+bloggerName+MainActivity.this.getString(R.string.blogger_text2)+bloggerName+MainActivity.this.getString(R.string.blogger_text3));
+    	alertBlog.setNegativeButton(MainActivity.this.getString(R.string.blogger_back), new DialogInterface.OnClickListener() {			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
 			}
 		});
-    	alertBlog.setPositiveButton("Visit blog", new DialogInterface.OnClickListener() {			
+    	alertBlog.setPositiveButton(MainActivity.this.getString(R.string.blogger_visit_blog), new DialogInterface.OnClickListener() {			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				visitBlog(URL);

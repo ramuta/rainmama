@@ -4,4 +4,9 @@
         android:title="@string/menu_settings"
         android:orderInCategory="100"
         android:showAsAction="never" />
+    <item 
+        android:id="@+id/menu_about"
+        android:title="@string/about_label"
+        android:orderInCategory="101"
+        android:showAsAction="never" />
 </menu>

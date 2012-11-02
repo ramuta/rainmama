@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="pref_list_notif_interval">
-        <item name="1">Only if weather changes</item>
+        <item name="1">@string/prefs_notifs_weather_changes</item>
         <item name="60">1 hour</item>
         <item name="120">2 hours</item>
         <item name="300">5 hours</item>
@@ -19,8 +19,8 @@
     </string-array>
     
     <string-array name="pref_gender">
-        <item name="female">Female</item>
-        <item name="male">Male</item>
+        <item name="female">@string/prefs_female</item>
+        <item name="male">@string/prefs_male</item>
     </string-array>
     
     <string-array name="pref_gender_values">
@@ -29,8 +29,8 @@
     </string-array>
     
     <string-array name="pref_temperature">
-        <item name="celsius">Celsius</item>
-        <item name="fahrenheit">Fahrenheit</item>
+        <item name="celsius">@string/prefs_celsius</item>
+        <item name="fahrenheit">@string/prefs_fahrenheit</item>
     </string-array>
     
     <string-array name="pref_temperature_values">

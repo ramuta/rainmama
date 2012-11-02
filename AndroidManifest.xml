@@ -40,6 +40,11 @@
         <activity
             android:name=".activities.Preference"
             android:label="@string/label_preferences" />
+        
+        <activity
+            android:name=".activities.About"
+            android:label="@string/about_label"
+            android:theme="@style/Theme.Sherlock.Dialog" />
     </application>
 
 </manifest>

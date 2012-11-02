@@ -4,6 +4,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.rainmama.R;
+
+import android.content.Context;
 import android.util.Log;
 
 public class WeatherDataHolder {
@@ -16,13 +19,12 @@ public class WeatherDataHolder {
 	public static final int WARM = 303;
 	public static final int HOT = 404;
 	
-	public static final String FREEZING_TEXT = "Don't go anywhere without a coat.";
-	public static final String COLD_TEXT = "Take a jacket with you.";
-	public static final String MEDIUM_TEXT = "Put something with long sleeves on.";
-	public static final String WARM_TEXT = "T-shirt is OK!";
-	public static final String HOT_TEXT = "Wear as little as you can. :)";
-	
-	public static final String RAIN_TEXT = " And don't forget your umbrella!";
+	public static String FREEZING_TEXT;
+	public static String COLD_TEXT;
+	public static String MEDIUM_TEXT;
+	public static String WARM_TEXT;
+	public static String HOT_TEXT;	
+	public static String RAIN_TEXT;
 	
 	// saved data
 	private static String weatherDesc;
@@ -30,8 +32,19 @@ public class WeatherDataHolder {
 	private static String currFahrenheit;
 	private static String precipMM;
 	
-	public WeatherDataHolder() {
+	private Context c;
+	
+	public WeatherDataHolder(Context c) {
 		super();
+		
+		this.c = c;
+		
+		FREEZING_TEXT = c.getString(R.string.rainmama_freezing);
+		COLD_TEXT = c.getString(R.string.rainmama_cold);
+		MEDIUM_TEXT = c.getString(R.string.rainmama_medium);
+		WARM_TEXT = c.getString(R.string.rainmama_warm);
+		HOT_TEXT = c.getString(R.string.rainmama_hot);
+		RAIN_TEXT = c.getString(R.string.rainmama_rain);
 	}
 	
 	/** Parse data string received from your weather info provider.

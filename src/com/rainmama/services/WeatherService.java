@@ -60,7 +60,7 @@ public class WeatherService extends Service {
 	
 	// weather data
 	private String weatherResponse;
-	private WeatherDataHolder weatherHolder = new WeatherDataHolder();
+	private WeatherDataHolder weatherHolder;
 	
 	// notification
 	private String svcName = Context.NOTIFICATION_SERVICE;
@@ -92,6 +92,7 @@ public class WeatherService extends Service {
 	
 	@Override
 	public void onCreate() {
+		weatherHolder = new WeatherDataHolder(getApplicationContext());
 		alarms = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 		alarmAction = WeatherAlarmReceiver.ACTION_REFRESH_WEATHER_ALARM;
 		Intent intentToFire = new Intent(alarmAction);
@@ -279,7 +280,7 @@ public class WeatherService extends Service {
 		if (precip == false) {
 			contentText = getNotifText(weatherHolder.getTemperature(TEMP_UNIT));
 		} else {
-			contentText = "Take an umbrella with you!";
+			contentText = context.getString(R.string.rainmama_rain);
 		}			
 		CharSequence contentTitle = "RainMama says:";		
 		Intent notificationIntent = new Intent(this, MainActivity.class);
@@ -311,15 +312,15 @@ public class WeatherService extends Service {
 	private String getNotifText(String temperature) {
 		switch (weatherHolder.getTemperatureCategory(Integer.parseInt(temperature), TEMP_UNIT)){
 		case WeatherDataHolder.FREEZING:
-			return WeatherDataHolder.FREEZING_TEXT;
+			return weatherHolder.FREEZING_TEXT;
 		case WeatherDataHolder.COLD:
-			return WeatherDataHolder.COLD_TEXT;
+			return weatherHolder.COLD_TEXT;
 		case WeatherDataHolder.MEDIUM:
-			return WeatherDataHolder.MEDIUM_TEXT;
+			return weatherHolder.MEDIUM_TEXT;
 		case WeatherDataHolder.WARM:
-			return WeatherDataHolder.WARM_TEXT;
+			return weatherHolder.WARM_TEXT;
 		case WeatherDataHolder.HOT:
-			return WeatherDataHolder.HOT_TEXT;
+			return weatherHolder.HOT_TEXT;
 		}
 		return null;
 	}

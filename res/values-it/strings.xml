@@ -1,0 +1,65 @@
+<resources>
+
+    <string name="app_name">RainMama</string>
+    <string name="hello_world">Loading weather.</string>
+    <string name="menu_settings">Impostazioni</string>
+    <string name="title_activity_main">RainMama</string>
+    
+    <!-- MainActivity -->
+	<string name="connection_error_title">Nessuna connessione</string>
+    <string name="connection_error_text">Controlla la connessione.</string>
+    <string name="connection_settings">Impostazioni</string>
+    <string name="connection_exit">Esci</string>
+    
+    <string name="main_text_inspirations">Con questo tempo puoi indossare qualcosa del genere</string>
+    <string name="main_rainmama_advice">Mama says w00t w00t! :)</string>
+    
+    <!-- Preferences -->
+    <string name="title_checkbox_pref_notif">Notifiche</string>
+    <string name="summary_checkbox_pref_notif">Attiva/disattiva notifiche.</string>
+    <string name="label_preferences">Impostazioni</string>
+    <string name="prefs_notifs_weather_changes">Solo se il tempo cambia</string>
+    <string name="prefs_gender">Sesso</string>
+    <string name="prefs_male">Maschio</string>
+    <string name="prefs_female">Femmina</string>
+    <string name="prefs_temperature">Temperatura</string>
+    <string name="prefs_celsius">Centigradi</string>
+    <string name="prefs_fahrenheit">Fahrenheit</string>
+    <string name="prefs_notif_appear">Ogni quanto le notifiche devono apparire?</string>
+    <string name="prefs_notif_interval">Intervallo notifica</string>
+    
+    <!-- Other -->
+    <string name="error_location">Errore di posizionamento</string>
+    <string name="error_location_text">Per favore vai in Impostazioni e attiva la localizzazione mediante Wi-Fi o rete mobile.</string>
+    <string name="blogger_text1">La persona in questa foto è </string>
+    <string name="blogger_text2">Visita il blog di </string>
+    <string name="blogger_text3">per vedere altre immagini.</string>
+    <string name="blogger_back">Indietro</string>
+    <string name="blogger_visit_blog">Visita blog</string>
+    
+    <!-- RainMama sentences -->
+    <string name="rainmama_freezing">Non andare da nessuna parte senza cappotto!</string>
+	<string name="rainmama_cold">Porta con te una giacca.</string>
+	<string name="rainmama_medium">Indossa qualcosa con le maniche lunghe.</string>
+	<string name="rainmama_warm">La T-shirt è OK!</string>
+	<string name="rainmama_hot">Indossa il meno possibile. :)</string>
+	<string name="rainmama_rain"> Non dimenticare l\&#39;ombrello!</string>
+	
+	<!-- About -->
+	<string name="about_label">About</string>
+	<string name="about_text">DON\&#39;T GET WET! :)
+\n
+\nDid you ever get wet because you forgot to take an umbrella with you?
+\n
+\nWorry not! RainMama is here to help you when weather changes. RainMama sends you a notification if there\&#39;s a significant weather change (like getting hotter or colder or starting to rain) and advices you on what to wear and whether to take an umbrella with you.
+\n
+\nYou don\&#39;t have to watch weather forecast anymore. RainMama does it for you! :)
+\n
+\nCreated by: Lafemme Team
+\nAndroid developer: Matej Ramuta
+\nDesigner: Blaz Beuermann
+\niOS developer: David Ilar
+\n
+\nA special thanks to Mattia Ceccopieri for translation into Italian language.</string>
+
+</resources>
