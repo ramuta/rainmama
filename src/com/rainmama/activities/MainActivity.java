@@ -381,7 +381,7 @@ public class MainActivity extends SherlockActivity {
     private void visitBlogDialogBox(String bloggerName, final String URL) {
     	AlertDialog.Builder alertBlog = new AlertDialog.Builder(MainActivity.this);
     	alertBlog.setTitle(bloggerName);
-    	alertBlog.setMessage(MainActivity.this.getString(R.string.blogger_text1)+bloggerName+MainActivity.this.getString(R.string.blogger_text2)+bloggerName+MainActivity.this.getString(R.string.blogger_text3));
+    	alertBlog.setMessage(MainActivity.this.getString(R.string.blogger_text1)+" "+bloggerName+MainActivity.this.getString(R.string.blogger_text2)+" "+bloggerName+MainActivity.this.getString(R.string.blogger_text3));
     	alertBlog.setNegativeButton(MainActivity.this.getString(R.string.blogger_back), new DialogInterface.OnClickListener() {			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {

@@ -282,7 +282,7 @@ public class WeatherService extends Service {
 		} else {
 			contentText = context.getString(R.string.rainmama_rain);
 		}			
-		CharSequence contentTitle = "RainMama says:";		
+		CharSequence contentTitle = context.getString(R.string.rainmama_says);		
 		Intent notificationIntent = new Intent(this, MainActivity.class);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 		//notification.flags = Notification.DEFAULT_LIGHTS | Notification.FLAG_AUTO_CANCEL;

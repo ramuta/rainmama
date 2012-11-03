@@ -17,15 +17,15 @@
     
     <ListPreference
         android:title="@string/prefs_gender"
-		android:summary="Select your gender."
+		android:summary="@string/prefs_gender_select"
 		android:key="preference_gender"
 		android:defaultValue="male"
 		android:entries="@array/pref_gender"
 		android:entryValues="@array/pref_gender_values" />
     
     <ListPreference
-        android:title="Temperature unit"
-		android:summary="Choose between celsius and fahrenheit."
+        android:title="@string/prefs_temperature_unit"
+		android:summary="@string/prefs_temperature_choose"
 		android:key="preference_temperature"
 		android:defaultValue="celsius"
 		android:entries="@array/pref_temperature"

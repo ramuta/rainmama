@@ -19,10 +19,18 @@
     <string name="summary_checkbox_pref_notif">Attiva/disattiva notifiche.</string>
     <string name="label_preferences">Impostazioni</string>
     <string name="prefs_notifs_weather_changes">Solo se il tempo cambia</string>
+    <string name="prefs_notifs_weather_one_hour">1 ora</string>
+    <string name="prefs_notifs_weather_two_hours">2 ore</string>
+    <string name="prefs_notifs_weather_five_hours">5 ore</string>
+    <string name="prefs_notifs_weather_ten_hours">10 ore</string>
+    <string name="prefs_notifs_weather_day">24 ore</string>
     <string name="prefs_gender">Sesso</string>
+    <string name="prefs_gender_select">Seleziona il tuo sesso.</string>
     <string name="prefs_male">Maschio</string>
     <string name="prefs_female">Femmina</string>
     <string name="prefs_temperature">Temperatura</string>
+    <string name="prefs_temperature_choose">Scegli tra centigradi o fahrenheit.</string>
+    <string name="prefs_temperature_unit">Temperatura</string>
     <string name="prefs_celsius">Centigradi</string>
     <string name="prefs_fahrenheit">Fahrenheit</string>
     <string name="prefs_notif_appear">Ogni quanto le notifiche devono apparire?</string>
@@ -31,9 +39,9 @@
     <!-- Other -->
     <string name="error_location">Errore di posizionamento</string>
     <string name="error_location_text">Per favore vai in Impostazioni e attiva la localizzazione mediante Wi-Fi o rete mobile.</string>
-    <string name="blogger_text1">La persona in questa foto è </string>
-    <string name="blogger_text2">Visita il blog di </string>
-    <string name="blogger_text3">per vedere altre immagini.</string>
+    <string name="blogger_text1">La persona in questa foto è</string>
+    <string name="blogger_text2">. Visita il blog di</string>
+    <string name="blogger_text3">\u0020per vedere altre immagini.</string>
     <string name="blogger_back">Indietro</string>
     <string name="blogger_visit_blog">Visita blog</string>
     
@@ -43,23 +51,24 @@
 	<string name="rainmama_medium">Indossa qualcosa con le maniche lunghe.</string>
 	<string name="rainmama_warm">La T-shirt è OK!</string>
 	<string name="rainmama_hot">Indossa il meno possibile. :)</string>
-	<string name="rainmama_rain"> Non dimenticare l\&#39;ombrello!</string>
+	<string name="rainmama_rain">\u0020Non dimenticare l\&#39;ombrello!</string>
+	<string name="rainmama_says">RainMama dice</string>
 	
 	<!-- About -->
-	<string name="about_label">About</string>
-	<string name="about_text">DON\&#39;T GET WET! :)
+	<string name="about_label">RainMama</string>
+	<string name="about_text">NON TI BAGNARE! :)
 \n
-\nDid you ever get wet because you forgot to take an umbrella with you?
+\nTi sei mai bagnato perché hai dimenticato di portare con te l\&#39;ombrello?
 \n
-\nWorry not! RainMama is here to help you when weather changes. RainMama sends you a notification if there\&#39;s a significant weather change (like getting hotter or colder or starting to rain) and advices you on what to wear and whether to take an umbrella with you.
+\nOra non devi più preoccuparti! RainMama ti invia una notifica se il meteo sta per cambiare in modo significativo (per esempio se la temperatura sta per aumentare/diminuire oppure sta per iniziare a piovere) e ti consiglia che abito indossare e se prendere o no l\&#39;ombrello.
 \n
-\nYou don\&#39;t have to watch weather forecast anymore. RainMama does it for you! :)
+\nNon devi più guardare le previsioni del tempo. RainMama lo farà per te. :)
 \n
-\nCreated by: Lafemme Team
-\nAndroid developer: Matej Ramuta
+\nCreato da: Lafemme Team
+\nSviluppatore Android: Matej Ramuta
 \nDesigner: Blaz Beuermann
-\niOS developer: David Ilar
+\nSviluppatore iOS: David Ilar
 \n
-\nA special thanks to Mattia Ceccopieri for translation into Italian language.</string>
+\nUn ringraziamento speciale a Mattia per la traduzione italiana.</string>
 
 </resources>

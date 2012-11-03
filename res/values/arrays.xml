@@ -2,11 +2,11 @@
 <resources>
     <string-array name="pref_list_notif_interval">
         <item name="1">@string/prefs_notifs_weather_changes</item>
-        <item name="60">1 hour</item>
-        <item name="120">2 hours</item>
-        <item name="300">5 hours</item>
-        <item name="600">10 hours</item>
-        <item name="1440">24 hours</item>
+        <item name="60">@string/prefs_notifs_weather_one_hour</item>
+        <item name="120">@string/prefs_notifs_weather_two_hours</item>
+        <item name="300">@string/prefs_notifs_weather_five_hours</item>
+        <item name="600">@string/prefs_notifs_weather_ten_hours</item>
+        <item name="1440">@string/prefs_notifs_weather_day</item>
     </string-array>
     
     <string-array name="pref_list_notif_interval_values">

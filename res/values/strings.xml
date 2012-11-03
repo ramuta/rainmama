@@ -19,10 +19,18 @@
     <string name="summary_checkbox_pref_notif">Turn notifications on or off.</string>
     <string name="label_preferences">Settings</string>
     <string name="prefs_notifs_weather_changes">Only if weather changes</string>
+    <string name="prefs_notifs_weather_one_hour">1 hour</string>
+    <string name="prefs_notifs_weather_two_hours">2 hours</string>
+    <string name="prefs_notifs_weather_five_hours">5 hours</string>
+    <string name="prefs_notifs_weather_ten_hours">10 hours</string>
+    <string name="prefs_notifs_weather_day">24 hours</string>
     <string name="prefs_gender">Gender</string>
+    <string name="prefs_gender_select">Select your gender.</string>
     <string name="prefs_male">Male</string>
     <string name="prefs_female">Female</string>
     <string name="prefs_temperature">Temperature</string>
+    <string name="prefs_temperature_choose">Choose between celsius and fahrenheit.</string>
+    <string name="prefs_temperature_unit">Temperature unit</string>
     <string name="prefs_celsius">Celsius</string>
     <string name="prefs_fahrenheit">Fahrenheit</string>
     <string name="prefs_notif_appear">At what rate should notfications appear?</string>
@@ -31,8 +39,8 @@
     <!-- Other -->
     <string name="error_location">Location error</string>
     <string name="error_location_text">Please go to Settings and allow your location to be determined by wi-fi or mobile networks.</string>
-    <string name="blogger_text1">A model on this photo is </string>
-    <string name="blogger_text2">. Visit </string>
+    <string name="blogger_text1">A model on this photo is</string>
+    <string name="blogger_text2">. Visit</string>
     <string name="blogger_text3">\&#39;s blog to see more pictures.</string>
     <string name="blogger_back">Back</string>
     <string name="blogger_visit_blog">Visit blog</string>
@@ -44,6 +52,7 @@
 	<string name="rainmama_warm">T-shirt is OK!</string>
 	<string name="rainmama_hot">Wear as little as you can. :)</string>
 	<string name="rainmama_rain"> And don\&#39;t forget your umbrella!</string>
+	<string name="rainmama_says">RainMama says</string>
 	
 	<!-- About -->
 	<string name="about_label">About</string>
